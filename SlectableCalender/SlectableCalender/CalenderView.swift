@@ -12,8 +12,10 @@ final class CalenderView: UICollectionView {
     
     private let cellIdentifier = "CalenderCell"
     
-    private var items: [String] = []
     private let weeks: [String] = ["日", "月", "火", "水", "木", "金", "土"]
+    
+    let sectionSpace: CGFloat = 5
+    let cellSpace: CGFloat    = 0
     
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
         super.init(frame: frame, collectionViewLayout: layout)
@@ -39,8 +41,6 @@ private extension CalenderView {
         delegate = self
         dataSource = self
         
-        (1...30).forEach { self.items.append(String($0)) }
-        
         backgroundColor = UIColor.lightGrayColor()
     }
     
@@ -58,7 +58,8 @@ extension CalenderView: UICollectionViewDataSource {
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return section == 0 ? weeks.count : items.count
+        let model = CalenderModel()
+        return section == 0 ? weeks.count : model.cellCount
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
@@ -71,7 +72,8 @@ extension CalenderView: UICollectionViewDataSource {
         if indexPath.section == 0 {
             cell.contentLabel.text = weeks[indexPath.row]
         } else {
-            cell.contentLabel.text = items[indexPath.row]
+            let model = CalenderModel()
+            cell.contentLabel.text = model.conversionDateFormat(indexPath)
         }
     }
 }
@@ -81,23 +83,21 @@ extension CalenderView: UICollectionViewDataSource {
 extension CalenderView: UICollectionViewDelegateFlowLayout {
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         let rowCount: CGFloat = 7
-        let space: CGFloat    = 0
-        let availableLength = collectionView.frame.width - space
+        let availableLength = collectionView.frame.width - cellSpace
         return CGSize(width: availableLength / rowCount, height: availableLength / rowCount)
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
-        return 0
+        return cellSpace
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat {
-        return 0
+        return cellSpace
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
         if section == 0 {
-            let sctionSpace: CGFloat = 1
-            return UIEdgeInsets(top: 0, left: 0, bottom: sctionSpace, right: 0)
+            return UIEdgeInsets(top: 0, left: 0, bottom: sectionSpace, right: 0)
         }
         return UIEdgeInsetsZero
     }

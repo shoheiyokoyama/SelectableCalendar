@@ -15,6 +15,7 @@
 		6D8F01CA1D7BEA8D00308166 /* CalenderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D8F01C91D7BEA8D00308166 /* CalenderView.swift */; };
 		6D8F01CF1D7BEB1A00308166 /* CalenderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D8F01CD1D7BEB1A00308166 /* CalenderCell.swift */; };
 		6D8F01D01D7BEB1A00308166 /* CalenderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6D8F01CE1D7BEB1A00308166 /* CalenderCell.xib */; };
+		6D8F01D21D84191000308166 /* CalenderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D8F01D11D84191000308166 /* CalenderModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		6D8F01C91D7BEA8D00308166 /* CalenderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalenderView.swift; sourceTree = "<group>"; };
 		6D8F01CD1D7BEB1A00308166 /* CalenderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalenderCell.swift; sourceTree = "<group>"; };
 		6D8F01CE1D7BEB1A00308166 /* CalenderCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CalenderCell.xib; sourceTree = "<group>"; };
+		6D8F01D11D84191000308166 /* CalenderModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalenderModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +65,7 @@
 				6D8F01B71D7BDF1E00308166 /* AppDelegate.swift */,
 				6D8F01B91D7BDF1E00308166 /* CalenderViewController.swift */,
 				6D8F01C91D7BEA8D00308166 /* CalenderView.swift */,
+				6D8F01D11D84191000308166 /* CalenderModel.swift */,
 				6D8F01CD1D7BEB1A00308166 /* CalenderCell.swift */,
 				6D8F01CE1D7BEB1A00308166 /* CalenderCell.xib */,
 				6D8F01BB1D7BDF1E00308166 /* Main.storyboard */,
@@ -148,6 +151,7 @@
 				6D8F01BA1D7BDF1E00308166 /* CalenderViewController.swift in Sources */,
 				6D8F01B81D7BDF1E00308166 /* AppDelegate.swift in Sources */,
 				6D8F01CA1D7BEA8D00308166 /* CalenderView.swift in Sources */,
+				6D8F01D21D84191000308166 /* CalenderModel.swift in Sources */,
 				6D8F01CF1D7BEB1A00308166 /* CalenderCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
