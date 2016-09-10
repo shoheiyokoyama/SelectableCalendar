@@ -14,8 +14,12 @@ final class CalenderView: UICollectionView {
     
     private let weeks: [String] = ["日", "月", "火", "水", "木", "金", "土"]
     
-    let sectionSpace: CGFloat = 5
+    let sectionSpace: CGFloat = 1
     let cellSpace: CGFloat    = 0
+    
+    private var selectedRange: Range<Int>?
+    
+    let model = CalenderModel()
     
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
         super.init(frame: frame, collectionViewLayout: layout)
@@ -50,6 +54,29 @@ private extension CalenderView {
     }
 }
 
+extension CalenderView: UICollectionViewDelegate {
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        print(indexPath.row)
+        if let selectedRange = selectedRange {
+            
+            if selectedRange == selectedRange.startIndex..<selectedRange.startIndex + 1 {
+                if  selectedRange.startIndex == indexPath.row {
+                    self.selectedRange = nil
+                } else {
+                    self.selectedRange = selectedRange.startIndex > indexPath.row ? indexPath.row...selectedRange.startIndex : selectedRange.startIndex...indexPath.row
+                }
+            } else {
+               self.selectedRange = indexPath.row...indexPath.row
+            }
+            
+        } else {
+            self.selectedRange = indexPath.row...indexPath.row
+        }
+        collectionView.reloadData()
+        
+    }
+}
+
 // MARK: - UICollectionViewDataSource -
 
 extension CalenderView: UICollectionViewDataSource {
@@ -58,7 +85,6 @@ extension CalenderView: UICollectionViewDataSource {
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let model = CalenderModel()
         return section == 0 ? weeks.count : model.cellCount
     }
     
@@ -71,9 +97,39 @@ extension CalenderView: UICollectionViewDataSource {
     private func confifuereCell(cell: CalenderCell, indexPath: NSIndexPath) {
         if indexPath.section == 0 {
             cell.contentLabel.text = weeks[indexPath.row]
+            cell.contentLabel.textColor = UIColor.blackColor()
+            cell.backgroundColor = UIColor.whiteColor()
         } else {
-            let model = CalenderModel()
             cell.contentLabel.text = model.conversionDateFormat(indexPath)
+            
+            cell.contentLabel.textColor = {
+                if indexPath.row < model.indexForFirstDate {
+                    return UIColor.lightGrayColor()
+                } else if indexPath.row > model.indexForLastDate {
+                    return UIColor.lightGrayColor()
+                } else if indexPath.row % 7 == 0 {
+                    return UIColor.redColor()
+                } else if indexPath.row % 7 == 6 {
+                    return UIColor.blueColor()
+                } else {
+                    return UIColor.blackColor()
+                }
+            }()
+            
+            cell.backgroundColor = {
+                if let selectedRange = selectedRange {
+                    if selectedRange ~= indexPath.row {
+                        return UIColor.greenColor()
+                    } else if selectedRange.startIndex - 2..<selectedRange.startIndex ~= indexPath.row ||
+                        selectedRange.endIndex..<selectedRange.endIndex + 2 ~= indexPath.row {
+                        return UIColor.lightGrayColor()
+                    } else {
+                        return UIColor.whiteColor()
+                    }
+                    
+                }
+               return UIColor.whiteColor()
+            }()
         }
     }
 }

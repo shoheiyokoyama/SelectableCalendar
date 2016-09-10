@@ -41,16 +41,43 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Shk-Z2-Bj2">
+                                <rect key="frame" x="40" y="105" width="30" height="30"/>
+                                <state key="normal" title="前"/>
+                                <connections>
+                                    <action selector="tapPreviousButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="QZv-zd-JUd"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AN4-VJ-YWe">
+                                <rect key="frame" x="279" y="109" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="w2T-kh-8wG">
+                                <rect key="frame" x="530" y="105" width="30" height="30"/>
+                                <state key="normal" title="後"/>
+                                <connections>
+                                    <action selector="tapNextButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="bnt-0Q-xXV"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="AN4-VJ-YWe" firstAttribute="centerY" secondItem="Shk-Z2-Bj2" secondAttribute="centerY" id="Aae-u7-Mcm"/>
+                            <constraint firstItem="AN4-VJ-YWe" firstAttribute="centerX" secondItem="Vpb-6G-kXk" secondAttribute="centerX" id="BDV-7o-ghV"/>
+                            <constraint firstItem="Vpb-6G-kXk" firstAttribute="top" secondItem="w2T-kh-8wG" secondAttribute="bottom" constant="15" id="H7F-98-pCH"/>
                             <constraint firstItem="Vpb-6G-kXk" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="PLB-cz-Ws8"/>
+                            <constraint firstItem="w2T-kh-8wG" firstAttribute="trailing" secondItem="Vpb-6G-kXk" secondAttribute="trailing" id="S6Q-vt-e0r"/>
+                            <constraint firstItem="Shk-Z2-Bj2" firstAttribute="leading" secondItem="Vpb-6G-kXk" secondAttribute="leading" id="aMe-fE-uyj"/>
                             <constraint firstItem="Vpb-6G-kXk" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="20" id="gW6-Qq-jCF"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Vpb-6G-kXk" secondAttribute="trailing" constant="20" id="pPY-ca-3iJ"/>
+                            <constraint firstItem="Vpb-6G-kXk" firstAttribute="top" secondItem="Shk-Z2-Bj2" secondAttribute="bottom" constant="15" id="zaf-DJ-NZB"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="calenderView" destination="Vpb-6G-kXk" id="OGK-uQ-nqg"/>
+                        <outlet property="headerLabel" destination="AN4-VJ-YWe" id="YU7-ET-Mbe"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
