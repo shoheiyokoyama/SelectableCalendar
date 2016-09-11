@@ -11,10 +11,14 @@ import UIKit
 final class CalenderModel: NSObject {
     private var currentDates: [NSDate] = []
     private var currentDate = NSDate()
-    private static let daysCountPerWeek = 7//delete
     static let weeks: [String] = ["日", "月", "火", "水", "木", "金", "土"]
     enum MonthDirection {
         case previous, current, next
+    }
+    
+    private struct DateFormat {
+        static let day = "d"
+        static let header = "M/yyyy"
     }
     
     private var currentCalendar: NSCalendar {
@@ -28,13 +32,13 @@ final class CalenderModel: NSObject {
     
     func stringFromDate(indexPath: NSIndexPath) -> String {
         let formatter: NSDateFormatter = NSDateFormatter()
-        formatter.dateFormat = "d"
+        formatter.dateFormat = DateFormat.day
         return formatter.stringFromDate(currentDates[indexPath.row])
     }
     
     func headerTitle(direction: MonthDirection) -> String {
         let formatter: NSDateFormatter = NSDateFormatter()
-        formatter.dateFormat = "M/yyyy"
+        formatter.dateFormat = DateFormat.header
         return formatter.stringFromDate(date(monthDirection: direction))
     }
     
@@ -55,7 +59,7 @@ final class CalenderModel: NSObject {
     
     func cellCount(monthDirection direction: MonthDirection) -> Int {
         let weeksRange = currentCalendar.rangeOfUnit(.WeekOfMonth, inUnit: .Month, forDate: firstDateFor(monthDirection: direction))
-        return weeksRange.length * CalenderModel.daysCountPerWeek
+        return weeksRange.length * CalenderModel.weeks.count
     }
 }
 

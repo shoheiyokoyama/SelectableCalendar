@@ -145,7 +145,7 @@ extension CalenderView: UICollectionViewDataSource {
             cell.backgroundColor = {
                 if let range = selectedRange[headerTitle(.current)]?.flatMap({$0}) {
                     if range ~= indexPath.row {
-                        return UIColor.greenColor()
+                        return UIColor.Color.mainBlue
                     } else if range.startIndex - 2..<range.startIndex ~= indexPath.row ||
                         range.endIndex..<range.endIndex + 2 ~= indexPath.row {
 //                        return UIColor.lightGrayColor()
@@ -179,5 +179,18 @@ extension CalenderView: UICollectionViewDelegateFlowLayout {
             return UIEdgeInsets(top: 0, left: 0, bottom: sectionSpace, right: 0)
         }
         return UIEdgeInsetsZero
+    }
+}
+
+extension UIColor {
+    convenience init(hex: Int, alpha: CGFloat = 1.0) {
+        let red   = CGFloat((hex & 0xFF0000) >> 16) / 255.0
+        let green = CGFloat((hex & 0xFF00) >> 8) / 255.0
+        let blue  = CGFloat((hex & 0xFF)) / 255.0
+        self.init(red: red, green: green, blue: blue, alpha: alpha)
+    }
+    
+    struct Color {
+        static let mainBlue = UIColor(hex: 0x1B5688)
     }
 }
