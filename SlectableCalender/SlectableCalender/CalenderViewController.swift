@@ -16,8 +16,7 @@ final class CalenderViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        headerLabel.text = calenderView.model.headerTitle
+        headerLabel.text = calenderView.model.headerTitle(.current)
     }
 }
 
@@ -25,17 +24,18 @@ final class CalenderViewController: UIViewController {
 
 private extension CalenderViewController {
     
-    
     @IBAction func tapPreviousButton(sender: AnyObject) {
-        calenderView.model.displayPreviousMonth()
-        calenderView.reloadData()
-        headerLabel.text = calenderView.model.headerTitle
+        displayMonth(.previous)
     }
     
     @IBAction func tapNextButton(sender: AnyObject) {
-        calenderView.model.displayNextMonth()
+        displayMonth(.next)
+    }
+    
+    func displayMonth(direction: CalenderModel.MonthDirection) {
+        calenderView.model.displayMonth(direction)
         calenderView.reloadData()
-        headerLabel.text = calenderView.model.headerTitle
+        headerLabel.text = calenderView.model.headerTitle(.current)
     }
 }
 

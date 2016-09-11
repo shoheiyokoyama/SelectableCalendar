@@ -9,65 +9,53 @@
 import UIKit
 
 final class CalenderModel: NSObject {
-    private var currentMonthOfDates: [NSDate] = []
+    private var currentDates: [NSDate] = []
     private var currentDate = NSDate()
-    private static let daysCountPerWeek = 7
-    var cellCount: Int!
+    private static let daysCountPerWeek = 7//delete
+    static let weeks: [String] = ["日", "月", "火", "水", "木", "金", "土"]
+    enum MonthDirection {
+        case previous, current, next
+    }
     
     private var currentCalendar: NSCalendar {
         return NSCalendar.currentCalendar()
     }
     
-    private var firstDateForMonth: NSDate {
-        let components = currentCalendar.components([.Year, .Month, .Day], fromDate: currentDate)
-        components.day = 1
-        return currentCalendar.dateFromComponents(components) ?? NSDate()
-    }
-    
-    var indexForFirstDate: Int {
-        return  currentCalendar.ordinalityOfUnit(.Day, inUnit: .WeekOfMonth, forDate: firstDateForMonth) - 1
-    }
-    
-    var indexForLastDate: Int {
-        let rangeDays = currentCalendar.rangeOfUnit(.Day, inUnit: .Month, forDate: firstDateForMonth)
-        return  rangeDays.length + indexForFirstDate - 1
-    }
-    
-    var headerTitle: String {
-        let formatter: NSDateFormatter = NSDateFormatter()
-        formatter.dateFormat = "M/yyyy"
-        let currentMonth = formatter.stringFromDate(currentDate)
-        return currentMonth
-    }
-    
     override init() {
         super.init()
-        
         setup()
     }
     
-    func conversionDateFormat(indexPath: NSIndexPath) -> String {
+    func stringFromDate(indexPath: NSIndexPath) -> String {
         let formatter: NSDateFormatter = NSDateFormatter()
         formatter.dateFormat = "d"
-        return formatter.stringFromDate(currentMonthOfDates[indexPath.row])
+        return formatter.stringFromDate(currentDates[indexPath.row])
     }
     
-    func displayPreviousMonth() {
-        currentMonthOfDates = []
-        
-        let dateComponents = NSDateComponents()
-        dateComponents.month = -1
-        currentDate = currentCalendar.dateByAddingComponents(dateComponents, toDate: currentDate, options: NSCalendarOptions(rawValue: 0))!
+    func headerTitle(direction: MonthDirection) -> String {
+        let formatter: NSDateFormatter = NSDateFormatter()
+        formatter.dateFormat = "M/yyyy"
+        return formatter.stringFromDate(date(monthDirection: direction))
+    }
+    
+    func displayMonth(direction: MonthDirection) {
+        currentDates = []
+        currentDate = date(monthDirection: direction)
         setup()
     }
     
-    func displayNextMonth() {
-        currentMonthOfDates = []
-        
-        let dateComponents = NSDateComponents()
-        dateComponents.month = 1
-        currentDate = currentCalendar.dateByAddingComponents(dateComponents, toDate: currentDate, options: NSCalendarOptions(rawValue: 0))!
-        setup()
+    func indexForFirstDate(monthDirection direction: MonthDirection) -> Int {
+        return  currentCalendar.ordinalityOfUnit(.Day, inUnit: .WeekOfMonth, forDate: firstDateFor(monthDirection: direction)) - 1
+    }
+    
+    func indexForLastDate(monthDirection direction: MonthDirection) -> Int {
+        let rangeDays = currentCalendar.rangeOfUnit(.Day, inUnit: .Month, forDate: firstDateFor(monthDirection: direction))
+        return  rangeDays.length + indexForFirstDate(monthDirection: direction)  - 1
+    }
+    
+    func cellCount(monthDirection direction: MonthDirection) -> Int {
+        let weeksRange = currentCalendar.rangeOfUnit(.WeekOfMonth, inUnit: .Month, forDate: firstDateFor(monthDirection: direction))
+        return weeksRange.length * CalenderModel.daysCountPerWeek
     }
 }
 
@@ -75,34 +63,27 @@ final class CalenderModel: NSObject {
 
 private extension CalenderModel {
     func setup() {
-        let weeksRange = currentCalendar.rangeOfUnit(.WeekOfMonth, inUnit: .Month, forDate: firstDateForMonth)
-        cellCount = weeksRange.length * CalenderModel.daysCountPerWeek
-        
-        (0..<cellCount).forEach { index in
+        (0..<cellCount(monthDirection: .current)).forEach { index in
             let components = NSDateComponents()
-            components.day = index - indexForFirstDate
-            let date = currentCalendar.dateByAddingComponents(components, toDate: firstDateForMonth, options: NSCalendarOptions(rawValue: 0)) ?? NSDate()
-            currentMonthOfDates.append(date)
+            components.day = index - indexForFirstDate(monthDirection: .current)
+            let date = currentCalendar.dateByAddingComponents(components, toDate: firstDateFor(monthDirection: .current), options: NSCalendarOptions(rawValue: 0)) ?? NSDate()
+            currentDates.append(date)
         }
     }
+    
+    func date(monthDirection direction: MonthDirection) -> NSDate {
+        let components = NSDateComponents()
+        switch direction {
+        case .previous: components.month = -1
+        case .current:  components.month = 0
+        case .next:     components.month = 1
+        }
+        return currentCalendar.dateByAddingComponents(components, toDate: currentDate, options: NSCalendarOptions(rawValue: 0))!
+    }
+    
+    func firstDateFor(monthDirection direction: MonthDirection) -> NSDate {
+        let components = currentCalendar.components([.Year, .Month, .Day], fromDate: date(monthDirection: direction))
+        components.day = 1
+        return currentCalendar.dateFromComponents(components)!
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
